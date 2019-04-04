@@ -17,7 +17,6 @@ using namespace cv;
 
 TLD *tld_ptr = NULL;
 Rect rect;
-int i = 0;
 int imageCallback(const sensor_msgs::ImageConstPtr &msg)
 {
     cout<<"recive"<<endl;
@@ -33,6 +32,7 @@ int imageCallback(const sensor_msgs::ImageConstPtr &msg)
         {
             cout<<"track"<<endl;
             tld_ptr->setNextFrame(img);
+            tld_ptr->track(); 
             cout<<"Get BB:"<<tld_ptr->getBB()<<endl;
             return 1;
         }
