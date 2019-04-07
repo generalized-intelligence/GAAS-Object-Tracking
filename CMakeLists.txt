@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(visualize_rosbag)
+project(ros_tld)
 
 set(CMAKE_CXX_STANDARD 11)
 ## set(CMAKE_BUILD_TYPE "Release")
@@ -14,7 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
                     cv_bridge
                     image_transport
                     sensor_msgs
-                    std_msgs)
+                    std_msgs
+                    message_generation
+            )
 
 include_directories(
     ${PROJECT_SOURCE_DIR}
@@ -40,6 +42,14 @@ add_executable(
   src/TLD.cpp
   src/VarClassifier.cpp
   src/ViewController.cpp
+)
+add_service_files(
+  FILES
+  InitRect.srv
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
 )
 target_link_libraries(
   ros_tld
