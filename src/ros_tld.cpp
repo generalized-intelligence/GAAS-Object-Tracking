@@ -12,17 +12,19 @@
 #include <cv_bridge/cv_bridge.h> 
 #include <sensor_msgs/image_encodings.h> 
 #include "ros_tld/InitRect.h"
+#include "std_msgs/Int32MultiArray.h"
+#include <vector>
 
 using namespace std;
 using namespace cv;
 
 TLD *tld_ptr = NULL;
-Rect rect;
 Rect *initRect;
+ros::Publisher *tld_pub_p;
 int i = 0;
-int imageCallback(const sensor_msgs::ImageConstPtr &msg)
+int trackFrame(const sensor_msgs::ImageConstPtr &msg)
 {
-    cout<<"recive"<<endl;
+    cout<<"Recive"<<endl;
     try{
         Mat img = cv_bridge::toCvShare(msg, "bgr8")->image;
         if (initRect == NULL) return 0;
@@ -35,9 +37,17 @@ int imageCallback(const sensor_msgs::ImageConstPtr &msg)
         }
         else
         {
-            cout<<"track"<<endl;
+            cout<<"Track"<<endl;
             tld_ptr->setNextFrame(img);
             tld_ptr->track();
+            vector<int> trackResult;
+            trackResult.push_back(tld_ptr->getBB().tl().x);
+            trackResult.push_back(tld_ptr->getBB().tl().y);
+            trackResult.push_back(tld_ptr->getBB().br().x);
+            trackResult.push_back(tld_ptr->getBB().br().y);
+            std_msgs::Int32MultiArray msg;
+            msg.data = trackResult;
+            tld_pub_p->publish(msg);
             cout<<"Get BB:"<<tld_ptr->getBB()<<endl;
             return 1;
         }
@@ -54,8 +64,8 @@ bool setInitRect(ros_tld::InitRect::Request &req, ros_tld::InitRect::Response &r
     int tly = req.ymin;
     int brx = req.xmax;
     int bry = req.ymax;
-    rect = Rect(Point2d(tlx, tly), Point2d(brx, bry));
     initRect = new Rect(Point2d(tlx, tly), Point2d(brx, bry));
+    cout<<"TL point: "<<tlx<<", "<<tly<<endl;
     return true;
 }
 
@@ -65,21 +75,13 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "ros_tld");
     ros::NodeHandle nodeHandle;
 
-    //TODO:change to ros service
     ros::ServiceServer service = nodeHandle.advertiseService("init_rect", setInitRect);
-    //string initFilename("/home/hddxds/dong/TLD/datasets/06_car/init.txt");
-    //FILE *fin = fopen(initFilename.c_str(), "r");
-    //int tlx, tly, brx, bry;
-    //fscanf(fin, "%d,%d,%d,%d", &tlx, &tly, &brx, &bry);
-    //rect = Rect(Point2d(tlx, tly), Point2d(brx, bry));
-    //cout << rect<<endl;
-    //fclose(fin);
 
-    //ros::ServiceServer service = nodeHandle.advertiseService("set_init", set_init);
-
-    // ros::Publisher rect_pub = n.advertise<std_msgs::int>("chatter", 1000);
+    // ros::Publisher ltd_pub = n.advertise<std_msgs::int>("chatter", 1000);
+    ros::Publisher ltd_pub =  nodeHandle.advertise<std_msgs::Int32MultiArray>("tracking_pub", 100);
+    tld_pub_p = &ltd_pub;
     image_transport::ImageTransport it(nodeHandle);
-    image_transport::Subscriber ltd_sub = it.subscribe("camera/tld/image", 1, imageCallback);
+    image_transport::Subscriber ltd_sub = it.subscribe("camera/tld/image", 1, trackFrame);
     ROS_INFO("Ready to set init rect.");
     ros::spin();
     return 0;

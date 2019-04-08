@@ -56,3 +56,12 @@ target_link_libraries(
   ${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
+
+add_executable(
+  test_ros_tld
+  src/test_ros_tld.cpp
+)
+target_link_libraries(
+  test_ros_tld
+  ${catkin_LIBRARIES}
+)
