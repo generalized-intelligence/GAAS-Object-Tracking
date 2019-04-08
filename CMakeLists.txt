@@ -29,8 +29,8 @@ include_directories(
 
 ## Declare cpp executables
 add_executable(
-  ros_tld
-  src/ros_tld.cpp
+  main
+  src/main.cpp
   src/VideoController.cpp
   src/Detector.cpp
   src/Learner.cpp
@@ -53,16 +53,16 @@ generate_messages(
   std_msgs
 )
 target_link_libraries(
-  ros_tld
+  main
   ${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
 
 add_executable(
-  test_ros_tld
-  src/test_ros_tld.cpp
+  testRosService
+  src/testRosService.cpp
 )
 target_link_libraries(
-  test_ros_tld
+  testRosService
   ${catkin_LIBRARIES}
 )
