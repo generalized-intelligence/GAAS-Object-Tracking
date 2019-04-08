@@ -42,6 +42,7 @@ add_executable(
   src/TLD.cpp
   src/VarClassifier.cpp
   src/ViewController.cpp
+  src/RosTLD.cpp
 )
 add_service_files(
   FILES
