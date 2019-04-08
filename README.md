@@ -15,5 +15,5 @@ make
 ## Usage
 ```sh
 cd build
-./ros_tld
+./main
 ```
