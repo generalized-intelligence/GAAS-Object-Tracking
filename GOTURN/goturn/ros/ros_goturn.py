@@ -20,14 +20,14 @@ class ros_goturn:
         self.init_rect = None
 
         self.goturn_pub = rospy.Publisher(config.TRACK_PUB_TOPIC, Int32MultiArray, queue_size=10)
-        self.img_sub = rospy.Subscriber(config.IMAGE_SUB_TOPIC, Image, self.recive_frame_and_track)
+        self.img_sub = rospy.Subscriber(config.IMAGE_SUB_TOPIC, Image, self.receive_frame_and_track)
         self.service = rospy.Service("init_rect", InitRect, self.set_init_rect)
         self.regressor = regressor(config.PROTOTXT_PATH, config.MODEL_PATH, config.GPUID, 1)
         self.tracker = tracker(False)
         self.tracker_manager = None
 
 
-    def recive_frame_and_track(self, msg):
+    def receive_frame_and_track(self, msg):
         if self.init_rect==None:
             return
         try:
