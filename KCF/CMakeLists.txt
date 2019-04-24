@@ -14,11 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
                     message_generation
             )
 
-include_directories(src
-                    ${catkin_INCLUDE_DIRS}) 
-FILE(GLOB_RECURSE sourcefiles "src/*.cpp")
-add_executable( main ${sourcefiles} )
-
 add_service_files(
   FILES
   InitRect.srv
@@ -27,6 +22,13 @@ generate_messages(
   DEPENDENCIES
   std_msgs
 )
+
+include_directories(src
+                    ${catkin_INCLUDE_DIRS}) 
+FILE(GLOB_RECURSE sourcefiles "src/*.cpp")
+add_executable( main ${sourcefiles} )
+
+
 target_link_libraries(
   main
   ${OpenCV_LIBS}

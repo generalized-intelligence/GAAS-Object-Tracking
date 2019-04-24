@@ -1,13 +1,14 @@
 #include "ros/ros.h"
 #include "ros_tld/InitRect.h"
-
+#include <iostream>
+using namespace std;
 
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "test_ros_tld");
 
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<beginner_tutorials::AddTwoInts>("test_ros_tld");
+  ros::ServiceClient client = n.serviceClient<ros_tld::InitRect>("init_rect");
   ros_tld::InitRect srv;
   //142,125,232,164
   srv.request.xmin = 142;

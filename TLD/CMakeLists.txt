@@ -18,13 +18,21 @@ find_package(catkin REQUIRED COMPONENTS
                     message_generation
             )
 
+add_service_files(
+  FILES
+  InitRect.srv
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
 include_directories(
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/include
     ${catkin_INCLUDE_DIRS}
 )
-
 
 
 ## Declare cpp executables
@@ -44,14 +52,7 @@ add_executable(
   src/ViewController.cpp
   src/RosTLD.cpp
 )
-add_service_files(
-  FILES
-  InitRect.srv
-)
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+
 target_link_libraries(
   main
   ${OpenCV_LIBS}
