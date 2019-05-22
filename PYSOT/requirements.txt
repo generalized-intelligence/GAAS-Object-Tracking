@@ -1,0 +1,6 @@
+opencv-python
+yacs
+tqdm
+pyyaml
+colorama
+cython
