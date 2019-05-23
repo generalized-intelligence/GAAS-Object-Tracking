@@ -34,6 +34,9 @@ roscore
 Init ROS node and init tracking.
 ```python
 import rospy
+#Add ROS service to python system path.
+import sys
+sys.path.append('/path/to/PYSOT/build/devel/lib/python2.7/dist-packages')
 from goturn.ros.ros_goturn import ros_goturn
 
 if __name__ == "__main__":

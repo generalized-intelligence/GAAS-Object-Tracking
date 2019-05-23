@@ -12,12 +12,12 @@ import ros.config as config
 
 import os
 import argparse
-
 import cv2
 import torch
 import numpy as np
 from glob import glob
-from srv import InitRect
+
+from pysot_ros.srv import InitRect
 
 from pysot.core.config import cfg
 from pysot.models.model_builder import ModelBuilder
