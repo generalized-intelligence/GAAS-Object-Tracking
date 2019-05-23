@@ -31,10 +31,17 @@ make -j1
 roscore
 ```
 ### Start GOTURN ROS node
-1. Start ROS node
+Init ROS node and init tracking.
 ```python
-python2 start_ros_goturn.py
+import rospy
+from goturn.ros.ros_goturn import ros_goturn
+
+if __name__ == "__main__":
+    rospy.init_node('ros_goturn', anonymous=True)
+    goturn = ros_goturn()
+    rospy.spin()
 ```
+The above code is included in `start_ros_goturn.py`.
 ### Init tracker and start track
 1. Use ROS service to set init rect: 
 ```python
@@ -57,6 +64,7 @@ img_pub.publish(msg)
 #config.TRACK_PUB_TOPIC: Change topic name at /path/to/GOTURN/goturn/ros/config.py
 result_sub = rospy.Subscriber(config.TRACK_PUB_TOPIC, Int32MultiArray, callback) 
 ```
+The above code is included in `test_ros_goturn.py`.
 
 ---
 Thanks for [Project PY-GOTURN](https://github.com/nrupatunga/PY-GOTURN.git).

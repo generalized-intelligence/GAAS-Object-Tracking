@@ -2,7 +2,7 @@ from __future__ import print_function
 import rospy
 #Add ROS service to python system path.
 import sys
-sys.path.append('/home/hddxds/dong/PY-GOTURN/build/devel/lib/python2.7/dist-packages')
+sys.path.append('/path/to/GOTURN/build/devel/lib/python2.7/dist-packages')
 from goturn_ros.srv import InitRect
 import os
 from cv_bridge import CvBridge
@@ -12,10 +12,10 @@ from std_msgs.msg import Int32MultiArray
 from goturn.ros import config
 
 def get_rect_result(result):
-    print(result)
+    print("xmin:{}, ymin:{}, xmax:{}, ymax:{}".format(result.data[0],result.data[1],result.data[2],result.data[3]))
 
 if __name__ == "__main__":
-    data_dir = "/home/hddxds/dong/PY-GOTURN/dataset/VOT/VOT2018/juggle"
+    data_dir = "/path/to/image/dir"
     rospy.wait_for_service('init_rect')
     init_rect = rospy.ServiceProxy('init_rect', InitRect)
     try:
