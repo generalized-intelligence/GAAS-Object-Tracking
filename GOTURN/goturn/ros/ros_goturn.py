@@ -12,40 +12,44 @@ from goturn.loader.loader_vot import loader_vot
 from goturn.tracker.tracker import tracker
 from goturn.tracker.tracker_manager import tracker_manager
 from goturn.ros import config
-from srv import InitRect
+from goturn_ros.srv import InitRect
 from goturn.helper.BoundingBox import BoundingBox
 
 class ros_goturn:
     def __init__(self):
         self.init_rect = None
-
+        self.bridge = CvBridge()
         self.goturn_pub = rospy.Publisher(config.TRACK_PUB_TOPIC, Int32MultiArray, queue_size=10)
-        self.img_sub = rospy.Subscriber(config.IMAGE_SUB_TOPIC, Image, self.receive_frame_and_track)
+        self.img_sub = rospy.Subscriber(config.IMAGE_SUB_TOPIC, Image, self.recive_frame_and_track)
         self.service = rospy.Service("init_rect", InitRect, self.set_init_rect)
         self.regressor = regressor(config.PROTOTXT_PATH, config.MODEL_PATH, config.GPUID, 1)
         self.tracker = tracker(False)
         self.tracker_manager = None
+        print('go')
 
 
-    def receive_frame_and_track(self, msg):
+    def recive_frame_and_track(self, msg):
         if self.init_rect==None:
             return
-        try:
-            cv2_img = bridge.imgmsg_to_cv2(msg, "bgr8")
+        if True:
+            cv2_img = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             if self.init_rect is not None and self.tracker_manager is None:
                 self.tracker_manager = tracker_manager(self.init_rect, cv2_img, self.regressor, self.tracker)
                 return
             else:
-                bbox = self.tracker_manager.tracke_frame(cv2_img)
+                bbox = self.tracker_manager.track_frame(cv2_img)
                 bbox_msg = Int32MultiArray()
                 bbox_msg.data = [int(bbox.x1), int(bbox.y1), int(bbox.x2), int(bbox.y2)]
                 self.goturn_pub.publish(bbox_msg)
-        except e:
-            print(e)
             
 
     def set_init_rect(self, req):
-        self.init_rect = BoundingBox(req.xmin, req.ymin, req.xmax, req.ymax)
-        return True
-
-    
+        try:
+            print(req)
+            self.init_rect = BoundingBox(req.xmin, req.ymin, req.xmax, req.ymax)
+            print('Set init rect.')
+            return True
+        except Exception as e:
+            print(e)
+            print('Set init rect wrong.')
+            return False
