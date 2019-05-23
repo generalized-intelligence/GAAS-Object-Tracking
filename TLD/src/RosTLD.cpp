@@ -17,7 +17,7 @@ RosTLD::RosTLD()
     this->service = nodeHandle.advertiseService("init_rect", &RosTLD::setInitRect, this);
     this->trackPub = nodeHandle.advertise<std_msgs::Int32MultiArray>("track_rect_pub", 1000);
     image_transport::ImageTransport it(nodeHandle);
-    this->imageSub = it.subscribe("camera/tld/image", 100, &RosTLD::buildTLDAndTrack, this);
+    this->imageSub = it.subscribe("camera/tracking/image", 100, &RosTLD::buildTLDAndTrack, this);
     this->initRectPtr = NULL;
     this->tldPtr = NULL;
 }
