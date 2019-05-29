@@ -27,7 +27,6 @@ class ros_goturn:
         self.tracker_manager = None
         print('go')
 
-
     def recive_frame_and_track(self, msg):
         if self.init_rect==None:
             return
@@ -39,7 +38,7 @@ class ros_goturn:
             else:
                 bbox = self.tracker_manager.track_frame(cv2_img)
                 bbox_msg = Int32MultiArray()
-                bbox_msg.data = [int(bbox.x1), int(bbox.y1), int(bbox.x2), int(bbox.y2)]
+                    .data = [int(bbox.x1), int(bbox.y1), int(bbox.x2), int(bbox.y2)]
                 self.goturn_pub.publish(bbox_msg)
             
 
@@ -47,7 +46,7 @@ class ros_goturn:
         try:
             print(req)
             self.init_rect = BoundingBox(req.xmin, req.ymin, req.xmax, req.ymax)
-            print('Set init rect.')
+            print('Set init rect success.')
             return True
         except Exception as e:
             print(e)

@@ -2,14 +2,14 @@ from __future__ import print_function
 import rospy
 #Add ROS service to python system path.
 import sys
-sys.path.append('/path/to/GOTURN/build/devel/lib/python2.7/dist-packages')
-from goturn_ros.srv import InitRect
+sys.path.append('/path/to/PYSOT/build/devel/lib/python2.7/dist-packages')
+from pysot_ros.srv import InitRect
 import os
 from cv_bridge import CvBridge
 import cv2
 from sensor_msgs.msg import Image
 from std_msgs.msg import Int32MultiArray
-from goturn.ros import config
+from ros import config
 
 def get_rect_result(result):
     print("xmin:{}, ymin:{}, xmax:{}, ymax:{}".format(result.data[0],result.data[1],result.data[2],result.data[3]))
@@ -24,7 +24,7 @@ if __name__ == "__main__":
         pass
 
     bridge = CvBridge()
-    rospy.init_node('test_ros_goturn', anonymous=True)
+    rospy.init_node('test_ros_pysot', anonymous=True)
     img_pub = rospy.Publisher(config.IMAGE_SUB_TOPIC, Image, queue_size=10)
     result_sub = rospy.Subscriber(config.TRACK_PUB_TOPIC, Int32MultiArray, get_rect_result)
     rate = rospy.Rate(10)
