@@ -14,14 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
                     message_generation
             )
 
-add_service_files(
-  FILES
-  InitRect.srv
-)
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+
 
 include_directories(src
                     ${catkin_INCLUDE_DIRS}) 
@@ -35,6 +28,13 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-
+add_service_files(
+  FILES
+  InitRect.srv
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 

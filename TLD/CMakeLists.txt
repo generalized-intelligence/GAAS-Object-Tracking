@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8.3)
 project(ros_tld)
 
 set(CMAKE_CXX_STANDARD 11)
-## set(CMAKE_BUILD_TYPE "Release")
-set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_BUILD_TYPE "Release")
+##set(CMAKE_BUILD_TYPE "Debug")
 
 find_package(OpenCV 3.4.2 REQUIRED)
 MESSAGE("OPENCV PATH: ${OpenCV_INCLUDE_DIRS}")
@@ -18,14 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
                     message_generation
             )
 
-add_service_files(
-  FILES
-  InitRect.srv
-)
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+
 
 include_directories(
     ${PROJECT_SOURCE_DIR}
@@ -37,8 +30,8 @@ include_directories(
 
 ## Declare cpp executables
 add_executable(
-  main
-  src/main.cpp
+  startRosService
+  src/startRosService.cpp
   src/VideoController.cpp
   src/Detector.cpp
   src/Learner.cpp
@@ -54,7 +47,7 @@ add_executable(
 )
 
 target_link_libraries(
-  main
+  startRosService
   ${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
@@ -66,4 +59,13 @@ add_executable(
 target_link_libraries(
   testRosService
   ${catkin_LIBRARIES}
+)
+
+add_service_files(
+  FILES
+  InitRect.srv
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
 )
