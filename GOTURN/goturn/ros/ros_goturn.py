@@ -22,7 +22,7 @@ class ros_goturn:
         self.goturn_pub = rospy.Publisher(config.TRACK_PUB_TOPIC, Int32MultiArray, queue_size=10)
         self.img_sub = rospy.Subscriber(config.IMAGE_SUB_TOPIC, Image, self.recive_frame_and_track)
         self.service = rospy.Service("init_rect", InitRect, self.set_init_rect)
-        self.regressor = regressor(config.PROTOTXT_PATH, config.MODEL_PATH, config.GPUID, 1)
+        self.regressor = regressor(config.PROTOTXT_PATH, config.MODEL_PATH, 0, 1)
         self.tracker = tracker(False)
         self.tracker_manager = None
         print('go')
@@ -38,7 +38,8 @@ class ros_goturn:
             else:
                 bbox = self.tracker_manager.track_frame(cv2_img)
                 bbox_msg = Int32MultiArray()
-                    .data = [int(bbox.x1), int(bbox.y1), int(bbox.x2), int(bbox.y2)]
+                bbox_msg.data = [int(bbox.x1), int(bbox.y1), int(bbox.x2), int(bbox.y2)]
+                print(bbox_msg)
                 self.goturn_pub.publish(bbox_msg)
             
 

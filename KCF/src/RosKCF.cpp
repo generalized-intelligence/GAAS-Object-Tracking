@@ -18,7 +18,7 @@ RosKCF::RosKCF()
     this->service = nodeHandle.advertiseService("init_rect", &RosKCF::setInitRect, this);
     this->trackPub = nodeHandle.advertise<std_msgs::Int32MultiArray>("track_rect_pub", 1000);
     image_transport::ImageTransport it(nodeHandle);
-    this->imageSub = it.subscribe("camera/tld/image", 100, &RosKCF::buildAndTrack, this);
+    this->imageSub = it.subscribe("camera/tracking/image", 100, &RosKCF::buildAndTrack, this);
     this->initRectPtr = NULL;
     this->kcfPtr = NULL;
 }

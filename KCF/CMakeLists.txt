@@ -7,6 +7,7 @@ find_package(OpenCV REQUIRED)
 find_package(catkin REQUIRED)
 find_package(catkin REQUIRED COMPONENTS 
                     roscpp
+                    rospy
                     cv_bridge
                     image_transport
                     sensor_msgs
@@ -14,19 +15,23 @@ find_package(catkin REQUIRED COMPONENTS
                     message_generation
             )
 
+set(INC_DIR ./src)
 
-
-include_directories(src
-                    ${catkin_INCLUDE_DIRS}) 
+include_directories(
+    ${PROJECT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/src
+    ${catkin_INCLUDE_DIRS}
+)
 FILE(GLOB_RECURSE sourcefiles "src/*.cpp")
-add_executable( main ${sourcefiles} )
+add_executable( startRosService src/startRosService.cpp )
 
 
 target_link_libraries(
-  main
+  startRosService
   ${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
+
 
 add_service_files(
   FILES

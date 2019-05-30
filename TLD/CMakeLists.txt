@@ -58,6 +58,7 @@ add_executable(
 )
 target_link_libraries(
   testRosService
+  ${OpenCV_LIBS}
   ${catkin_LIBRARIES}
 )
 
