@@ -76,7 +76,7 @@ The above code is included in `src/testRosService.cpp`.
 mkdir build
 cd build
 cmake ..
-make -j1
+make -j4
 ```
 
 ### Init ROS and tracker

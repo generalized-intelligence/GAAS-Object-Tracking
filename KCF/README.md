@@ -75,7 +75,7 @@ The above code is included in `src/testRosService.cpp`.
 mkdir build
 cd build
 cmake ..
-make
+make -j4
 ```
 
 ---
