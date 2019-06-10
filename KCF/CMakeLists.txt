@@ -23,7 +23,7 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 FILE(GLOB_RECURSE sourcefiles "src/*.cpp")
-add_executable( startRosService src/startRosService.cpp )
+add_executable( startRosService ${sourcefiles} )
 
 
 target_link_libraries(
