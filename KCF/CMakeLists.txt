@@ -23,6 +23,8 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 FILE(GLOB_RECURSE sourcefiles "src/*.cpp")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 add_executable( startRosService ${sourcefiles} )
 
 

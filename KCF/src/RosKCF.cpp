@@ -18,7 +18,7 @@ RosKCF::RosKCF()
     this->service = nodeHandle.advertiseService("init_rect", &RosKCF::setInitRect, this);
     this->trackPub = nodeHandle.advertise<std_msgs::Int32MultiArray>("track_rect_pub", 1000);
     image_transport::ImageTransport it(nodeHandle);
-    this->imageSub = it.subscribe("camera/tracking/image", 100, &RosKCF::buildAndTrack, this);
+    this->imageSub = it.subscribe("/gi/simulation/left/image_raw", 100, &RosKCF::buildAndTrack, this);
     this->initRectPtr = NULL;
     this->kcfPtr = NULL;
 }
@@ -49,8 +49,15 @@ void RosKCF::buildAndTrack(const sensor_msgs::ImageConstPtr &msg)
         }
         else
         {
-            cout<<"Track"<<endl;
+            
             cv::Rect result = kcfPtr->update(img);
+
+            int x1 = result.tl().x;
+            int y1 = result.tl().y;
+            int x2 = result.br().x;
+            int y2 = result.br().y;
+            cout<<"Track rect: (("<< x1 << "," << y1 << "), ("<< x2 << ", "<< y2 <<"))"<<endl;
+
             vector<int> trackResult;
             trackResult.push_back(result.tl().x);
             trackResult.push_back(result.tl().y);
