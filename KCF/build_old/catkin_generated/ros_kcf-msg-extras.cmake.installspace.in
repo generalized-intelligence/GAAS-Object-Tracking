@@ -1,2 +1,0 @@
-set(ros_kcf_MESSAGE_FILES "")
-set(ros_kcf_SERVICE_FILES "srv/InitRect.srv")
