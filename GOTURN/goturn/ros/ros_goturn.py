@@ -47,7 +47,7 @@ class ros_goturn:
         try:
             print(req)
             self.init_rect = BoundingBox(req.xmin, req.ymin, req.xmax, req.ymax)
-            print('Set init rect success.')
+            print('Init rect received.')
             return True
         except Exception as e:
             print(e)

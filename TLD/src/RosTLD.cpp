@@ -29,6 +29,7 @@ bool RosTLD::setInitRect(ros_tld::InitRect::Request &req, ros_tld::InitRect::Res
     int brx = req.xmax;
     int bry = req.ymax;
     this->initRectPtr = new Rect(Point2d(tlx, tly), Point2d(brx, bry));
+    std::cout<<"Init rect received."<<std::endl;
     return true;
 }
 

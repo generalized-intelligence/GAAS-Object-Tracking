@@ -69,4 +69,5 @@ class ros_pysot:
 
     def set_init_rect(self, req):
         self.init_rect = (req.xmin, req.ymin, req.xmax-req.xmin, req.ymax-req.ymin)
+        print("Init rect received.")
         return True
