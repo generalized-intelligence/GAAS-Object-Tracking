@@ -1,6 +1,0 @@
-build/
-*.caffemodel
-*.pyc
-*.bkup
-bin/
-*.txt
